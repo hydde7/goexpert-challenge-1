@@ -11,43 +11,42 @@ const (
 	CONTENT_TYPE_TEXT ContentType = "text/plain"
 )
 
-// ResponseController interface defines the methods that a response controller should implement.
+// ResponseController is an interface that defines methods for handling HTTP responses.
 type ResponseController interface {
-	// IsAbort checks if the request should be aborted based on the status code or errors.
+	// IsAbort returns a boolean value indicating whether the response should be aborted.
 	IsAbort() bool
 
-	// GetStatusCode returns the HTTP status code.
+	// GetStatusCode returns the HTTP status code of the response.
 	GetStatusCode() int
 
-	// GetErrors returns a slice of errors, if any.
+	// GetErrors returns a slice of errors associated with the response.
 	GetErrors() []error
 
-	// GetResponse returns the response object.
+	// GetResponse returns the response data.
 	GetResponse() interface{}
 
-	// SetStatusCode sets the HTTP status code.
+	// SetStatusCode sets the HTTP status code of the response.
 	SetStatusCode(statusCode int)
 
-	// SetErrors sets the slice of errors.
+	// SetErrors sets the errors associated with the response.
 	SetErrors(errors []error)
 
-	// AddError appends a single error to the errors slice.
+	// AddError adds an error to the response.
 	AddError(err error)
 
-	// SetResponse sets the response object.
+	// SetResponse sets the response data.
 	SetResponse(response interface{})
 
-	// SetResult is a shortcut to set the status code and response object.
+	// SetResult sets the HTTP status code and response data.
 	SetResult(status int, response interface{})
 
-	// Write writes the response to the Gin context with the appropriate status code.
+	// Write writes the response to the given Gin context.
 	Write(ctx *gin.Context)
 
 	// SetContentType sets the content type of the response.
 	SetContentType(contentType ContentType)
 }
 
-// baseResponseController is a concrete implementation of the ResponseController interface.
 type baseResponseController struct {
 	contentType ContentType
 	statusCode  int
@@ -76,11 +75,7 @@ func (b *baseResponseController) SetStatusCode(statusCode int) {
 }
 
 func (b *baseResponseController) SetErrors(errors []error) {
-	b.err = []error{}
-
-	for _, err := range errors {
-		b.err = append(b.err, err)
-	}
+	b.err = append(b.err, errors...)
 }
 
 func (b *baseResponseController) AddError(err error) {
@@ -112,7 +107,6 @@ func (b *baseResponseController) SetContentType(contentType ContentType) {
 	b.contentType = contentType
 }
 
-// NewJsonResponseController creates a new instance of baseResponseController and returns it as a ResponseController.
 func NewJsonResponseController() ResponseController {
 	return &baseResponseController{
 		contentType: CONTENT_TYPE_JSON,

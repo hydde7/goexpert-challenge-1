@@ -7,43 +7,42 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Controller interface defines the contract for transaction handling.
+// Controller is an interface that defines the methods required to handle requests.
 type Controller interface {
-	// SetParams sets the path parameters from the request.
+	// SetParams sets the parameters of the request.
 	SetParams(params gin.Params)
 
-	// SetHost sets the host information.
+	// SetHost sets the host of the request.
 	SetHost(host string)
 
 	// SetPath sets the path of the request.
 	SetPath(path string)
 
-	// SetHeader sets the headers of the request.
+	// SetHeader sets the header of the request.
 	SetHeader(header http.Header)
 
-	// SetContext sets the Gin context.
+	// SetContext sets the context of the request.
 	SetContext(context *gin.Context)
 
-	// SetDefaultLog sets the logging mechanism.
+	// SetDefaultLog sets the default log entry for the request.
 	SetDefaultLog(log *logrus.Entry)
 
-	// GetHost retrieves the host information.
+	// GetHost returns the host of the request.
 	GetHost() string
 
-	// GetParam retrieves a specific path parameter by key.
+	// GetParam returns the value of the specified parameter.
 	GetParam(key string) string
 
-	// GetQueryParam retrieves a specific query parameter by key.
+	// GetQueryParam returns the value of the specified query parameter.
 	GetQueryParam(key string) string
 
-	// GetClientIP retrieves the IP address of the client.
+	// GetClientIP returns the IP address of the client.
 	GetClientIP() string
 
-	// Execute performs the actual transaction and returns a ResponseController.
+	// Execute executes the request with the given payload and returns a response.
 	Execute(payload interface{}) ResponseController
 }
 
-// TransactionControllerImpl is a concrete implementation of the TransactionController interface.
 type TransactionControllerImpl struct {
 	Params     gin.Params
 	context    *gin.Context
