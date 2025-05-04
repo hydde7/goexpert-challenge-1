@@ -21,9 +21,6 @@ func RequestWithController(c *gin.Context, payload interface{}, controller Contr
 	}))
 	controller.SetContext(c)
 	controller.SetParams(c.Params)
-	controller.SetHost(c.Request.Host)
-	controller.SetPath(c.Request.URL.Path)
-	controller.SetHeader(c.Request.Header)
 
 	result := controller.Execute(payload)
 	status := result.GetStatusCode()
