@@ -20,7 +20,19 @@ A aplicação realiza duas integrações externas:
 - **Fahrenheit:** `F = C * 1.8 + 32`
 - **Kelvin:** `K = C + 273`
 
-## Respostas da API
+## Rotas disponíveis
+
+- `GET /appstatus`  
+  Retorna o status atual da aplicação.
+
+- `GET /cep/:cep`  
+  Recebe um CEP como parâmetro de URL e retorna a temperatura convertida nas três unidades.
+
+- `GET /swagger/index.html`  
+  Interface de documentação interativa da API gerada automaticamente com Swagger.
+
+
+## Respostas da API /cep
 
 - **200 OK** – Quando o CEP é válido e a temperatura foi localizada com sucesso.  
   Exemplo de retorno:  
