@@ -17,7 +17,7 @@ func (c *ControllerGetCepTemperature) Execute(payload interface{}) (result handl
 	cep := c.GetParam("cep")
 
 	if !utils.ValidateCEP(cep) {
-		result.SetResult(442, "invalid zipcode")
+		result.SetResult(http.StatusUnprocessableEntity, "invalid zipcode")
 		return
 	}
 
