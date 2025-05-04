@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"os/signal"
 
 	"github.com/hydde7/goexpert-challenge-1/cmd"
 	"github.com/hydde7/goexpert-challenge-1/internal/cfg"
@@ -16,10 +15,9 @@ func main() {
 	app.Usage = "Challenge 1 for GoExpert"
 	app.Flags = cfg.Flags
 	app.Action = cli.ActionFunc(run)
-	go app.Run(os.Args)
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
+	if err := app.Run(os.Args); err != nil {
+		logrus.WithError(err).Fatal("failed to run CLI app")
+	}
 	logrus.Info("Shutting down...")
 }
 
@@ -30,10 +28,11 @@ func run(c *cli.Context) error {
 		logrus.WithError(err).Fatal("failed to parse log level")
 	}
 	logrus.SetLevel(level)
-
+	logrus.Info("Starting application...")
 	router := cmd.SetupRouter()
+	logrus.Info("Router setup complete")
 
-	err = router.Run(cfg.App.Address)
+	err = router.Run(":8080")
 	if err != nil {
 		logrus.WithError(err).Fatal("failed to start server")
 	}

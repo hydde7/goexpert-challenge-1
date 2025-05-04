@@ -13,12 +13,6 @@ var Flags = []cli.Flag{
 		Value:       Development,
 	},
 	&cli.StringFlag{
-		Name:        "app-address",
-		Destination: &App.Address,
-		EnvVar:      "APP_ADDRESS",
-		Value:       ":8080",
-	},
-	&cli.StringFlag{
 		Name:        "app-log-level",
 		Destination: &App.LogLevel,
 		EnvVar:      "APP_LOG_LEVEL",
