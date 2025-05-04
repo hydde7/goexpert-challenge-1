@@ -29,7 +29,7 @@ func (c *ControllerGetCepTemperature) Execute(payload interface{}) (result handl
 
 	weatherPayload, err := services.FreeWeatherRequest(cepPayload.Localidade)
 	if err != nil {
-		result.SetResult(http.StatusInternalServerError, err.Error())
+		result.SetResult(http.StatusInternalServerError, "internal server error")
 		return
 	}
 
